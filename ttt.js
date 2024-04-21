@@ -34,14 +34,23 @@ const gameBoard = (function() {
   };
 
   function checkWinner() {
-    return (board[0][0] === board[0][1] && board[0][1] === board[0][2]) ||
-           (board[1][0] === board[1][1] && board[1][1] === board[1][2]) ||
-           (board[2][0] === board[2][1] && board[2][1] === board[2][2]) ||
-           (board[0][0] === board[1][0] && board[1][0] === board[2][0]) ||
-           (board[0][1] === board[1][1] && board[1][1] === board[2][1]) ||
-           (board[0][2] === board[1][2] && board[1][2] === board[2][2]) ||
-           (board[0][0] === board[1][1] && board[1][1] === board[2][2]) ||
-           (board[0][2] === board[1][1] && board[1][1] === board[2][0]);
+    const winningCombos = [
+      [[0,0], [0,1], [0,2]],
+      [[1,0], [1,1], [1,2]],
+      [[2,0], [2,1], [2,2]],
+      [[0,0], [1,0], [2,0]],
+      [[0,1], [1,1], [2,1]],
+      [[0,2], [1,2], [2,2]],
+      [[0,0], [1,1], [2,2]],
+      [[0,2], [1,1], [2,0]],
+    ]
+    
+    let win = false;
+    winningCombos.forEach((combo) => {
+      let [a, aa] = combo[0], [b, bb] = combo[1], [c, cc] = combo[2];
+      if(board[a][aa] === board[b][bb] && board[b][bb] === board[c][cc]) win = true; 
+    });
+    return win;
   }
 
   /* for console to check tie game
@@ -53,6 +62,7 @@ const gameBoard = (function() {
   game.playRound(2,0) 
   game.playRound(2,2)
   game.playRound(2,1) 
+  game.playRound(0,2) 
   */
   function checkTie() {
     let catsGame = 0;
@@ -60,14 +70,12 @@ const gameBoard = (function() {
       for(let j = 0; j < 3; j++) {
         if(board[i][j] === 'X' || board[i][j] === 'O') {
           catsGame++;
-          console.log(catsGame);
         }
       }
-
       if(catsGame === 9 && !checkWinner()) return true;
     }
-
   }
+
   const showBoard = () => {
     console.log(board[0]);
     console.log(board[1]);
