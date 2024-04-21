@@ -105,13 +105,15 @@ function gameController() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
   const getActivePlayer = () => activePlayer;
-  
+
+  console.log(`${activePlayer.name}: ${activePlayer.value}, Enter 2D array index using 2 numbers for selection.`);
+  gameBoard.showBoard();
   const playRound = (x, y) => {
-    console.log(`${activePlayer.name}: ${activePlayer.value}, Enter 2D array index using 2 numbers for selection.`);
     
     if(gameBoard.playerMove(activePlayer, x, y)) {
       gameBoard.showBoard();
       changePlayer();
+      console.log(`${activePlayer.name}: ${activePlayer.value}, Enter 2D array index using 2 numbers for selection.`);
     } else return;
   }
 
