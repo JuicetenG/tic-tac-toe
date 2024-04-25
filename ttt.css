@@ -1,4 +1,16 @@
-.cell {
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: 150px 150px 150px;
+  grid-template-rows: 150px 150px 150px;
+  margin-top: 10em;
+}
+
+.square {
   height: 150px;
   width: 150px;
   border: 1px solid black;

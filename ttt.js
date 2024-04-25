@@ -88,6 +88,29 @@ const gameBoard = (function() {
   };
 })();
 
+const displayGame = (function () {
+  const display = document.querySelector('#container');
+  const game = gameController();
+  
+  const updateScreen = () => {
+  
+    for(let i = 0; i < 3; i++) {
+      const row = document.createElement('div');
+      row.dataset.y = i;
+      display.appendChild(row);
+      for(let j = 0; j < 3; j++) {
+        const square = document.createElement('button');
+        square.dataset.x = j;
+        square.classList.add('square');
+        row.appendChild(square);
+        square.textContent = `${j}, ${i}`
+      }
+    }
+  }
+
+  updateScreen();
+})();
+
 function gameController() {
   const players = [
     {
@@ -123,6 +146,7 @@ function gameController() {
   }
 }
 
-const game = gameController();
+displayGame();
+
 
 
