@@ -5,7 +5,7 @@ const gameBoard = (function() {
     for(let i = 0; i < 3; i++) {
       board[i] = [];
       for(let j = 0; j < 3; j++) {
-        board[i].push(v);
+        board[i].push('');
         v++;
       }
     }
@@ -30,20 +30,16 @@ const gameBoard = (function() {
 const displayGame = (function () {
   const display = document.querySelector('#container');
   const playerDisplay = document.querySelector('#playerDisplay');
+  const resetButton = document.querySelector('#reset');
   const game = gameController();
-  const winnerInfo = {
-    winner: '',
-    tie: ''
-  };
-
-  const getWinnerInfo = () => winnerInfo;
+  let gameEnd = false;
 
   const updateScreen = () => {
     display.textContent = '';
     
     const player = game.getActivePlayer();
+    
     playerDisplay.textContent = `${player.name}'s turn`
-
     const board = gameBoard.getBoard();
 
     for(let i = 0; i < 3; i++) {
@@ -58,21 +54,34 @@ const displayGame = (function () {
         square.textContent = board[j][i];
       }
     }
+
+    if(game.checkWinner()) {
+      playerDisplay.textContent = `${player.name} Wins!`;
+      gameEnd = true;
+    } else if(game.checkTie()) {
+      playerDisplay.textContent = 'Tie Game!';
+      gameEnd = true;
+    }
   }
 
-  function clickingtons(e) {
+  function playerClicks(e) {
+    if(gameEnd === true) return;
     const clickedX = e.target.dataset.x;
     const clickedY = e.target.dataset.y;
-    
     game.playRound(clickedX, clickedY);
     updateScreen();
   }
-  display.addEventListener('click', clickingtons);
-  updateScreen();
 
-  return {
-    getWinnerInfo,
-  };
+  function resetGame() {
+    gameBoard.fillBoard();
+    game.resetPlayer();
+    updateScreen();
+    gameEnd = false;
+  }
+
+  display.addEventListener('click', playerClicks);
+  resetButton.addEventListener('click', resetGame);
+  updateScreen();
 })(); 
 
 function gameController() {
@@ -93,30 +102,16 @@ function gameController() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
   const getActivePlayer = () => activePlayer;
+  const resetPlayer = () =>{ activePlayer = players[0] };
 
   console.log(`${activePlayer.name}: ${activePlayer.value}, Enter 2D array index using 2 numbers for selection.`);
   gameBoard.showBoard();
 
   function playerMove(player, x, y) {
-    const winners = displayGame.getWinnerInfo();
     if((board[x][y] !== 'X') && (board[x][y] !== 'O')) {
       board[x][y] = player.value;
-      if(checkWinner()) {
-        //console.log(`${player.name} has won the game`);
-        winners.winner = player.name;
-        console.log(winners.winner);
-        gameBoard.showBoard();
-        gameBoard.fillBoard();
-        return;
-      }
-      if(checkTie()) {
-        //console.log("tie game");
-        winners.tie = 'tie game';
-        console.log(winners.tie);
-        gameBoard.showBoard();
-        gameBoard.fillBoard();
-        return;
-      }
+      if(checkWinner()) return;
+      if(checkTie()) return;
       return true;
     } else return false;
   }
@@ -136,7 +131,8 @@ function gameController() {
     
     winningCombos.forEach((combo) => {
       let [a, aa] = combo[0], [b, bb] = combo[1], [c, cc] = combo[2];
-      if(board[a][aa] === board[b][bb] && board[b][bb] === board[c][cc]) win = true; 
+      if((board[a][aa] === board[b][bb] && board[b][bb] === board[c][cc])
+          && (board[a][aa] !== '' && board[b][bb] !== '' && board[c][cc] !== '')) win = true; 
     });
 
     return win;
@@ -156,7 +152,7 @@ function gameController() {
     let catsGame = 0;
     for(let i = 0; i < 3; i++) {
       for(let j = 0; j < 3; j++) {
-        if(board[i][j] === 'X' || board[i][j] === 'O') {
+        if((board[i][j] === 'X' || board[i][j] === 'O') && (board[i][j] !== '')) {
           catsGame++;
         }
       }
@@ -177,7 +173,10 @@ function gameController() {
 
   return {
     playRound,
-    getActivePlayer
+    checkTie,
+    getActivePlayer,
+    checkWinner,
+    resetPlayer
   }
 }
 
