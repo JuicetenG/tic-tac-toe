@@ -1,3 +1,9 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -5,15 +11,58 @@ body {
   align-items: center;
 }
 
+#playerDisplay {
+  margin: 3em 0em
+}
+
+button.square {
+  display: inline-block;
+  border: none;
+  padding: 1rem 1rem;
+  margin: 0;
+  background-color: white;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  font-size: 60px;
+  font-weight: lighter;
+  transition: background 150ms ease-in-out, transform 125ms ease;
+}
+
+button.square:hover {
+  background-color: antiquewhite;
+}
+
 #container {
   display: grid;
   grid-template-columns: 150px 150px 150px;
   grid-template-rows: 150px 150px 150px;
-  margin-top: 10em;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 2em;
+  gap: 6px;
+  background-color: gray;
+  border-radius: 6px;
 }
 
 .square {
   height: 150px;
   width: 150px;
-  border: 1px solid black;
 }
+
+button.square.x-color:hover {
+  background-color: white;
+}
+
+button.square.o-color:hover {
+  background-color: white;
+}
+
+.x-color {
+  color: maroon;
+}
+
+.o-color {
+  color: navy;
+}
+
+
