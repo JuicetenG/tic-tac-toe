@@ -52,6 +52,11 @@ const displayGame = (function () {
         square.classList.add('square');
         row.appendChild(square);
         square.textContent = board[j][i];
+        if(board[j][i] === "X") {
+          square.classList.add('x-color');
+        } else if (board[j][i] === "O") {
+          square.classList.add('o-color');
+        }
       }
     }
 
@@ -138,16 +143,6 @@ function gameController() {
     return win;
   }
 
-  /* for console to check tie game
-  game.playRound(0,1) 
-  game.playRound(0,0) 
-  game.playRound(1,0) 
-  game.playRound(1,2) 
-  game.playRound(1,1)
-  game.playRound(2,0) 
-  game.playRound(2,2)
-  game.playRound(2,1) 
-  game.playRound(0,2) */
   function checkTie() {
     let catsGame = 0;
     for(let i = 0; i < 3; i++) {
@@ -180,7 +175,7 @@ function gameController() {
   }
 }
 
-const game = gameController();
+
 
 
 
