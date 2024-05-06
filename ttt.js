@@ -82,7 +82,7 @@ const displayGame = (function () {
       playerDisplay.textContent = 'Tie Game!';
       gameEnd = true;
     }
-  }
+  };
 
   //function for handling clicks on display board squares
   function playerClicks(e) {
@@ -118,7 +118,7 @@ function gameController() {
       name: 'Player O',
       value: 'O'
     }
-  ]
+  ];
 
   //the following lines set active player initially and create a method for
   //changing, returning, and resetting that player
@@ -157,7 +157,7 @@ function gameController() {
       [[0,2], [1,2], [2,2]],
       [[0,0], [1,1], [2,2]],
       [[0,2], [1,1], [2,0]],
-    ]
+    ];
 
     winningCombos.forEach((combo) => {
       let [a, aa] = combo[0], [b, bb] = combo[1], [c, cc] = combo[2];
@@ -195,7 +195,7 @@ function gameController() {
       gameBoard.showBoard();
       console.log(`${activePlayer.name}: ${activePlayer.value}, Enter 2D array index using 2 numbers for selection.`)
     }
-  }
+  };
 
   return {
     playRound,
@@ -203,7 +203,7 @@ function gameController() {
     getActivePlayer,
     checkWinner,
     resetPlayer
-  }
+  };
 }
 
 
